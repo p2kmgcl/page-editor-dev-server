@@ -83,6 +83,8 @@ const compiler = webpack({
 const server = new WebpackDevServer(compiler, {
   open: false,
   clientLogLevel: 'silent',
+  overlay: true,
+  noInfo: true,
   stats: {
     colors: true,
   },
