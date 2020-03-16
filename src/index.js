@@ -1,108 +1,49 @@
-#!/usr/bin/node
+import 'atlas';
+import 'PageEditorStyles';
+import 'PageEditorMock';
 
-const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ClayIconSpriteContext } from '@clayui/icon';
+import PageEditorApp from 'PageEditorApp';
 
-const compiler = webpack({
-  mode: 'development',
-  devtool: 'source-map',
+document.body.innerHTML = `
+  <style>
+    .toolbar {
+      display: flex;
+      align-items: center;
+      border-bottom: solid #ddd thin;
+    }
 
-  entry: path.resolve(__dirname, 'run.js'),
+    .toolbar > .container-fluid {
+      display: flex;
+      justify-content: space-between;
+    }
 
-  output: {
-    filename: '[name].js',
-    chunkFilename: '[name].[hash].js',
-  },
+    body {
+      background: white !important;
+    }
 
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-react', '@babel/preset-env'],
-            plugins: [
-              '@babel/plugin-proposal-export-namespace-from',
-              '@babel/plugin-proposal-class-properties',
-            ],
-          },
-        },
-      },
+    .page-editor-sidebar {
+      height: calc(100vh - 64px);
+    }
 
-      {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-    ],
-  },
+    .page-editor-sidebar-content {
+      height: calc(100vh - 64px);
+    }
+  </style>
 
-  plugins: [new HTMLWebpackPlugin()],
+  <div id="ControlMenu"></div>
+  <div class="toolbar page-editor__toolbar" id="_com_liferay_layout_content_page_editor_web_internal_portlet_ContentPageEditorPortlet_pageEditorToolbar"></div>
+  <main class="layout-content" id="layoutContent"></main>
+`;
 
-  resolve: {
-    alias: {
-      atlas: path.resolve(
-        __dirname,
-        '../node_modules/@clayui/css/src/scss/atlas.scss',
-      ),
-      'frontend-js-components-web': path.resolve(
-        '../../frontend-js/frontend-js-components-web/src/main/resources/META-INF/resources/index.js',
-      ),
-      'frontend-js-web$': path.resolve(
-        '../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js',
-      ),
-      'frontend-js-react-web$': path.resolve(
-        '../../frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/index.es.js',
-      ),
-      'page_editor/plugins': path.resolve(
-        './src/main/resources/META-INF/resources/page_editor/plugins',
-      ),
-      react: path.resolve('../../../node_modules/react/index.js'),
-      'react-dom': path.resolve('../../../node_modules/react-dom/index.js'),
-      '@clayui/icon': path.resolve(
-        '../../../node_modules/@clayui/icon/lib/index.js',
-      ),
-      'atlas-variables': path.resolve(
-        __dirname,
-        '../node_modules/@clayui/css/src/scss/atlas-variables.scss',
-      ),
-      PageEditor$: path.resolve(
-        './src/main/resources/META-INF/resources/page_editor/app/index.js',
-      ),
-      PageEditorStyles$: path.resolve(
-        './src/main/resources/META-INF/resources/page_editor/app/components/App.scss',
-      ),
-      PageEditorServerData$: path.resolve(__dirname, 'mock.js'),
-    },
-  },
-});
-
-const server = new WebpackDevServer(compiler, {
-  open: false,
-  clientLogLevel: 'silent',
-  overlay: true,
-  noInfo: true,
-  stats: {
-    colors: true,
-  },
-  proxy: {
-    '/web': {
-      target: 'http://192.168.50.165:8080',
-      headers: {
-        Authorization: `Basic ${Buffer.from('test@liferay.com:test').toString(
-          'base64',
-        )}`,
-      },
-    },
-    '/o/': {
-      target: 'http://192.168.50.165:8080',
-    },
-  },
-});
-
-server.listen(8090, 'localhost', () => {
-  console.log('Sever on localhost:8090');
-});
+ReactDOM.render(
+  <ClayIconSpriteContext.Provider value="/o/classic-theme/images/lexicon/icons.svg">
+    <PageEditorApp
+      config={window.PAGE_EDITOR_DATA.config}
+      state={window.PAGE_EDITOR_DATA.state}
+    />
+  </ClayIconSpriteContext.Provider>,
+  document.getElementById('layoutContent'),
+);
