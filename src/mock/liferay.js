@@ -1,20 +1,20 @@
 export const DYNAMIC_MODULES = {
-  'layout-content-page-editor-web@2.0.23/page_editor/plugins/comments/index': import(
+  'layout-content-page-editor-web@2.0.24/page_editor/plugins/comments/index': import(
     'page_editor/plugins/comments/index'
   ),
-  'layout-content-page-editor-web@2.0.23/page_editor/plugins/page-structure/index': import(
+  'layout-content-page-editor-web@2.0.24/page_editor/plugins/page-structure/index': import(
     'page_editor/plugins/page-structure/index'
   ),
-  'layout-content-page-editor-web@2.0.23/page_editor/plugins/contents/index': import(
+  'layout-content-page-editor-web@2.0.24/page_editor/plugins/contents/index': import(
     'page_editor/plugins/contents/index'
   ),
-  'layout-content-page-editor-web@2.0.23/page_editor/plugins/widgets/index': import(
+  'layout-content-page-editor-web@2.0.24/page_editor/plugins/widgets/index': import(
     'page_editor/plugins/widgets/index'
   ),
-  'layout-content-page-editor-web@2.0.23/page_editor/plugins/experience/index': import(
+  'layout-content-page-editor-web@2.0.24/page_editor/plugins/experience/index': import(
     'page_editor/plugins/experience/index'
   ),
-  'layout-content-page-editor-web@2.0.23/page_editor/plugins/fragments/index': import(
+  'layout-content-page-editor-web@2.0.24/page_editor/plugins/fragments/index': import(
     'page_editor/plugins/fragments/index'
   ),
 };

@@ -7,7 +7,7 @@ const path = require('path');
 const buildPage = require('./build-page');
 
 const main = async () => {
-  const data = await buildPage();
+  const getDisplayContext = await buildPage();
 
   const compiler = webpack({
     mode: 'development',
@@ -44,12 +44,7 @@ const main = async () => {
       ],
     },
 
-    plugins: [
-      new HTMLWebpackPlugin(),
-      new webpack.DefinePlugin({
-        'process.env.PAGE_EDITOR_DATA': JSON.stringify(JSON.parse(data)),
-      }),
-    ],
+    plugins: [new HTMLWebpackPlugin()],
 
     resolve: {
       alias: {
@@ -97,8 +92,14 @@ const main = async () => {
     stats: {
       colors: true,
     },
-    proxy: {
-      '/web': {
+    before: function(app) {
+      app.get('/get-page-editor-display-context', async function(req, res) {
+        res.json({ displayContext: await getDisplayContext() });
+      });
+    },
+    proxy: [
+      {
+        context: ['/web', '/o'],
         target: 'http://localhost:8080',
         headers: {
           Authorization: `Basic ${Buffer.from('test@liferay.com:test').toString(
@@ -106,10 +107,7 @@ const main = async () => {
           )}`,
         },
       },
-      '/o/': {
-        target: 'http://localhost:8080',
-      },
-    },
+    ],
   });
 
   server.listen(8090, 'localhost', () => {

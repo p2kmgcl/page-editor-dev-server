@@ -24,26 +24,35 @@ document.body.innerHTML = `
       background: white !important;
     }
 
-    .page-editor-sidebar {
-      height: calc(100vh - 64px);
+    .page-editor__sidebar {
+      top: 0 !important;
     }
 
-    .page-editor-sidebar-content {
-      height: calc(100vh - 64px);
+    .page-editor__sidebar,
+    .page-editor__sidebar__buttons,
+    .page-editor__sidebar__content {
+      height: 100vh !important;
     }
   </style>
 
-  <div id="ControlMenu"></div>
-  <div class="toolbar page-editor__toolbar" id="_com_liferay_layout_content_page_editor_web_internal_portlet_ContentPageEditorPortlet_pageEditorToolbar"></div>
-  <main class="layout-content" id="layoutContent"></main>
+  <div class="control-menu control-menu-container">
+    <div class="lfr-control-menu-panel" id="ControlMenu"></div>
+    <div class="toolbar management-bar navbar navbar-expand-md page-editor__toolbar" id="_com_liferay_layout_content_page_editor_web_internal_portlet_ContentPageEditorPortlet_pageEditorToolbar"></div>
+  </div>
+
+  <div id="wrapper">
+    <main class="layout-content" id="layoutContent"></main>
+  </div>
 `;
 
-ReactDOM.render(
-  <ClayIconSpriteContext.Provider value="/o/classic-theme/images/lexicon/icons.svg">
-    <PageEditorApp
-      config={window.PAGE_EDITOR_DATA.config}
-      state={window.PAGE_EDITOR_DATA.state}
-    />
-  </ClayIconSpriteContext.Provider>,
-  document.getElementById('layoutContent'),
-);
+window.GET_PAGE_EDITOR_DATA().then(pageEditorData => {
+  ReactDOM.render(
+    <ClayIconSpriteContext.Provider value="/o/classic-theme/images/lexicon/icons.svg">
+      <PageEditorApp
+        config={pageEditorData.config}
+        state={pageEditorData.state}
+      />
+    </ClayIconSpriteContext.Provider>,
+    document.getElementById('layoutContent'),
+  );
+});

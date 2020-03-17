@@ -35,14 +35,14 @@ module.exports = async () => {
   });
   await page.waitForSelector('#page-editor');
 
-  console.log('Getting DisplayContext...');
-
+  console.log('Getting DisplayContext url...');
   const url = await page.url();
-  const response = await page.goto(url);
-  const data = /(\{"portletId".+\}), '[a-z]{4}'\);\n/g.exec(
-    await response.text(),
-  )[1];
-  await browser.close();
 
-  return data;
+  return async () => {
+    const response = await page.goto(url);
+
+    return /(\{"portletId".+\}), '[a-z]{4}'\);\n/g.exec(
+      await response.text(),
+    )[1];
+  };
 };
