@@ -1,5 +1,6 @@
 #!/usr/bin/node
 
+const fs = require('fs');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
@@ -44,10 +45,64 @@ const main = async () => {
       ],
     },
 
-    plugins: [new HTMLWebpackPlugin()],
+    plugins: [
+      new HTMLWebpackPlugin({
+        templateContent: `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <style>
+              .toolbar {
+                display: flex;
+                align-items: center;
+                border-bottom: solid #ddd thin;
+              }
+
+              .toolbar > .container-fluid {
+                display: flex;
+                justify-content: space-between;
+              }
+
+              body {
+                background: white !important;
+              }
+
+              .page-editor__sidebar {
+                top: 0 !important;
+              }
+
+              .page-editor__sidebar,
+              .page-editor__sidebar__buttons,
+              .page-editor__sidebar__content {
+                height: 100vh !important;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="control-menu control-menu-container">
+              <div class="lfr-control-menu-panel" id="ControlMenu"></div>
+              <div class="toolbar management-bar navbar navbar-expand-md page-editor__toolbar" id="_com_liferay_layout_content_page_editor_web_internal_portlet_ContentPageEditorPortlet_pageEditorToolbar"></div>
+            </div>
+
+            <div id="wrapper">
+              <main class="layout-content" id="layoutContent"></main>
+            </div>
+
+            <script>
+              var CKEDITOR_BASEPATH = '/alloy-editor/assets/';
+            </script>
+          </body>
+          </html>
+        `,
+      }),
+    ],
 
     resolve: {
       alias: {
+        'alloy-editor/assets': path.resolve(
+          __dirname,
+          '../node_modules/alloyeditor/dist/alloy-editor',
+        ),
         atlas: path.resolve(
           __dirname,
           '../node_modules/@clayui/css/src/scss/atlas.scss',
@@ -88,13 +143,33 @@ const main = async () => {
     open: false,
     clientLogLevel: 'silent',
     overlay: true,
-    noInfo: true,
+    noInfo: false,
     stats: {
       colors: true,
     },
     before: function(app) {
       app.get('/get-page-editor-display-context', async function(req, res) {
         res.json({ displayContext: await getDisplayContext() });
+      });
+
+      app.get('/alloy-editor/assets/*', (req, res) => {
+        try {
+          res.send(
+            fs.readFileSync(
+              path.resolve(
+                __dirname,
+                '../node_modules/alloyeditor/dist/alloy-editor',
+                new URL(`http://localhost:8080${req.url}`).pathname.replace(
+                  '/alloy-editor/assets/',
+                  '',
+                ),
+              ),
+              'utf-8',
+            ),
+          );
+        } catch (error) {
+          res.sendStatus(404);
+        }
       });
     },
     proxy: [
@@ -110,9 +185,7 @@ const main = async () => {
     ],
   });
 
-  server.listen(8090, 'localhost', () => {
-    console.log('Sever on localhost:8090');
-  });
+  server.listen(8090, 'localhost', () => {});
 };
 
 main();
