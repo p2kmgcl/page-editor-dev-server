@@ -1,5 +1,12 @@
 # Page Editor Dev Server
 
+## Portal config
+
+```
+# Avoid checking CSRF
+auth.token.check.enabled=false
+```
+
 ## Steps
 
 - `npm install`
