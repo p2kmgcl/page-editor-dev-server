@@ -17,6 +17,7 @@ auth.token.check.enabled=false
 ## ToDo
 
 - [ ] Mock Liferay.Util.selectEntity
+- [ ] Mock Liferay.Util.sub
 - [ ] Mock AlloyEditor
 - [ ] Fix toolbar padding (works fine in portal)
 - [ ] Hot Reloading
