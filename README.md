@@ -1,7 +1,5 @@
 # Page Editor Dev Server
 
-Run page editor in a webpack dev server
-
 ## Steps
 
 - `npm install`
