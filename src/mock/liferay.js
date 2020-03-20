@@ -1,4 +1,5 @@
 import liferayLoader from './liferay-loader';
+import liferaySelectEntity from './liferay-select-entity';
 
 window.Liferay = {
   component: () => {},
@@ -28,5 +29,9 @@ window.Liferay = {
   ThemeDisplay: {
     getBCP47LanguageId: () => 'en-US',
     getPathThemeImages: () => '',
+  },
+
+  Util: {
+    selectEntity: liferaySelectEntity,
   },
 };

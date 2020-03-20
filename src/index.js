@@ -107,7 +107,7 @@ const main = async () => {
     },
     proxy: [
       {
-        context: ['/web', '/o'],
+        context: ['/documents', '/group', '/web', '/o'],
         target: 'http://localhost:8080',
         headers: {
           Authorization: `Basic ${Buffer.from('test@liferay.com:test').toString(
