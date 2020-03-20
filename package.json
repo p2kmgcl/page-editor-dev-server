@@ -2,16 +2,16 @@
   "name": "page-editor-dev-server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/run-webpack.js",
+  "main": "src/index.js",
   "bin": {
-    "page-editor-dev-server": "src/run-webpack.js"
+    "page-editor-dev-server": "src/index.js"
   },
   "files": [
     "build",
     "node_modules"
   ],
   "scripts": {
-    "start": "./src/run-webpack.js"
+    "start": "./src/index.js"
   },
   "author": "Pablo Molina <contact@pablomolina.me>",
   "license": "MIT",
