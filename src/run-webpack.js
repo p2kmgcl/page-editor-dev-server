@@ -89,10 +89,6 @@ const main = async () => {
             <div id="wrapper">
               <main class="layout-content" id="layoutContent"></main>
             </div>
-
-            <script>
-              var CKEDITOR_BASEPATH = '/alloy-editor/assets/';
-            </script>
           </body>
           </html>
         `,
@@ -101,10 +97,6 @@ const main = async () => {
 
     resolve: {
       alias: {
-        'alloy-editor/assets': path.resolve(
-          __dirname,
-          '../node_modules/alloyeditor/dist/alloy-editor',
-        ),
         atlas: path.resolve(
           __dirname,
           '../node_modules/@clayui/css/src/scss/atlas.scss',
@@ -152,26 +144,6 @@ const main = async () => {
     before: function(app) {
       app.get('/get-page-editor-display-context', async function(req, res) {
         res.json({ displayContext: await getDisplayContext() });
-      });
-
-      app.get('/alloy-editor/assets/*', (req, res) => {
-        try {
-          res.send(
-            fs.readFileSync(
-              path.resolve(
-                __dirname,
-                '../node_modules/alloyeditor/dist/alloy-editor',
-                new URL(`http://localhost:8080${req.url}`).pathname.replace(
-                  '/alloy-editor/assets/',
-                  '',
-                ),
-              ),
-              'utf-8',
-            ),
-          );
-        } catch (error) {
-          res.sendStatus(404);
-        }
       });
     },
     proxy: [

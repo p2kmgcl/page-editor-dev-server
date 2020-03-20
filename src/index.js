@@ -1,7 +1,6 @@
 import 'atlas';
 import 'PageEditorStyles';
 import 'PageEditorMock';
-import 'alloy-editor/assets/alloy-editor-all-min.js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
