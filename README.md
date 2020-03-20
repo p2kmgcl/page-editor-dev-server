@@ -11,5 +11,5 @@ Run page editor in a webpack dev server
 
 ## ToDo
 
-[ ] AlloyEditor
-[ ] Liferay.Util.selectEntity
+- [ ] AlloyEditor
+- [ ] Liferay.Util.selectEntity
