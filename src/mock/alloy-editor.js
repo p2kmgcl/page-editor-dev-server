@@ -10,11 +10,21 @@ const editable = (target, opts) => {
   let onChange;
   let onBlur;
 
-  const nativeEditor = {
-    getData: () => {
-      return target.innerHTML;
-    },
+  const on = (eventName, handler) => {
+    if (eventName === 'change') {
+      onChange = handler;
+    } else if (eventName === 'blur') {
+      onBlur = handler;
+    } else if (eventName === 'instanceReady') {
+      handler();
+    }
 
+    return {
+      removeListener: () => {},
+    };
+  };
+
+  const nativeEditor = {
     getSelection: () => ({
       selectRanges: () => {},
 
@@ -26,25 +36,15 @@ const editable = (target, opts) => {
       ],
     }),
 
-    on: (eventName, handler) => {
-      if (eventName === 'change') {
-        onChange = handler;
-      } else if (eventName === 'blur') {
-        onBlur = handler;
-      } else if (eventName === 'instanceReady') {
-        handler();
-      }
-
-      return {
-        removeListener: () => {},
-      };
+    setData: data => {
+      target.innerHTML = data;
     },
 
+    on,
+    once: on,
     execCommand: () => {},
-
-    focus: () => {
-      target.focus();
-    },
+    focus: () => target.focus(),
+    getData: () => target.innerHTML,
   };
 
   const onKeyUp = () => {

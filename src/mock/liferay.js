@@ -27,6 +27,7 @@ window.Liferay = {
   ThemeDisplay: {
     getBCP47LanguageId: () => 'en-US',
     getPathThemeImages: () => '',
+    getUserId: () => '20127',
   },
 
   Util: {
