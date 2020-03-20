@@ -79,6 +79,8 @@ const main = async () => {
             </style>
           </head>
           <body>
+            <h1 class="text-muted" id="dp">Fetching DisplayContext...</h1>
+
             <div class="control-menu control-menu-container">
               <div class="lfr-control-menu-panel" id="ControlMenu"></div>
               <div class="toolbar management-bar navbar navbar-expand-md page-editor__toolbar" id="_com_liferay_layout_content_page_editor_web_internal_portlet_ContentPageEditorPortlet_pageEditorToolbar"></div>
