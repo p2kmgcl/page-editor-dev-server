@@ -1,5 +1,7 @@
 import liferayLoader from './liferay-loader';
 import liferaySelectEntity from './liferay-select-entity';
+import liferaySub from './liferay-sub';
+import liferayLanguageGet from './liferay-language-get';
 
 window.Liferay = {
   component: () => {},
@@ -7,11 +9,7 @@ window.Liferay = {
   zIndex: {},
 
   Language: {
-    get: str => {
-      const words = str.split('-');
-      words[0] = words[0].charAt(0).toUpperCase() + words[0].substr(1);
-      return words.join(' ');
-    },
+    get: liferayLanguageGet,
   },
 
   Loader: liferayLoader,
@@ -33,5 +31,6 @@ window.Liferay = {
 
   Util: {
     selectEntity: liferaySelectEntity,
+    sub: liferaySub,
   },
 };
