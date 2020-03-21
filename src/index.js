@@ -14,13 +14,20 @@ const main = async () => {
 
   const compiler = webpack({
     mode: 'development',
-    devtool: 'source-map',
+    devtool: 'eval-source-map',
+
+    optimization: {
+      removeAvailableModules: false,
+      removeEmptyChunks: false,
+      splitChunks: false,
+    },
 
     entry: path.resolve(__dirname, 'app.js'),
 
     output: {
       filename: '[name].js',
-      chunkFilename: '[name].[hash].js',
+      chunkFilename: '[name].js',
+      pathinfo: false,
     },
 
     module: {

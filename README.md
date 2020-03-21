@@ -24,5 +24,5 @@ auth.token.check.enabled=false
 - [ ] Fix toolbar padding (works fine in portal)
 - [x] Hot Reloading
 - [x] Show progress on build
-- [ ] Add DLL building
+- [x] Add DLL building
 - [ ] Publish to NPM
