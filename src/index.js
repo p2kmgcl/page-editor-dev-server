@@ -53,7 +53,25 @@ const main = async () => {
 
         {
           test: /\.scss$/,
-          use: ['style-loader', 'css-loader', 'sass-loader'],
+          use: [
+            'style-loader',
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require(path.resolve(
+                  __dirname,
+                  '../node_modules/sass',
+                )),
+                sassOptions: {
+                  fibers: require(path.resolve(
+                    __dirname,
+                    '../node_modules/fibers',
+                  )),
+                },
+              },
+            },
+          ],
         },
       ],
     },
