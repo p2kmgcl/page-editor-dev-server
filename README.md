@@ -11,6 +11,12 @@ auth.token.check.enabled=false
 
 ## Steps to run
 
+- `npm install --global page-editor-dev-server`
+- Go to page editor directory
+- `page-editor-dev-server`
+
+or
+
 - Go to page editor directory
 - `npx page-editor-dev-server`
 
