@@ -33,6 +33,10 @@ const main = async () => {
               plugins: [
                 '@babel/plugin-proposal-export-namespace-from',
                 '@babel/plugin-proposal-class-properties',
+                path.resolve(
+                  __dirname,
+                  '../node_modules/react-hot-loader/babel.js',
+                ),
               ],
             },
           },
@@ -72,8 +76,15 @@ const main = async () => {
         'page_editor/plugins': path.resolve(
           './src/main/resources/META-INF/resources/page_editor/plugins',
         ),
+        'react-hot-loader': path.resolve(
+          __dirname,
+          '../node_modules/react-hot-loader',
+        ),
         react: path.resolve('../../../node_modules/react/index.js'),
-        'react-dom': path.resolve('../../../node_modules/react-dom/index.js'),
+        'react-dom': path.resolve(
+          __dirname,
+          '../node_modules/@hot-loader/react-dom',
+        ),
         '@clayui/icon': path.resolve(
           '../../../node_modules/@clayui/icon/lib/index.js',
         ),
@@ -96,9 +107,14 @@ const main = async () => {
     open: false,
     clientLogLevel: 'silent',
     overlay: true,
-    noInfo: false,
+    noInfo: true,
+    hot: true,
     stats: {
+      all: false,
       colors: true,
+      timings: true,
+      warnings: true,
+      errors: true,
     },
     before: function(app) {
       app.get('/get-page-editor-display-context', async function(req, res) {
@@ -118,7 +134,9 @@ const main = async () => {
     ],
   });
 
-  server.listen(8090, 'localhost', () => {});
+  server.listen(8090, 'localhost', () => {
+    console.log('Server started at http://localhost:8090');
+  });
 };
 
 main();
