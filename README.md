@@ -1,4 +1,4 @@
-[![NPM Publish Version][https://badge.fury.io/js/page-editor-dev-server.svg?style=flat]][https://www.npmjs.com/package/page-editor-dev-server]
+![NPM Publish Version](https://badge.fury.io/js/page-editor-dev-server.svg?style=flat]][https://www.npmjs.com/package/page-editor-dev-server)
 
 # Page Editor Development Server
 
