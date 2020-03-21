@@ -1,7 +1,7 @@
 {
   "name": "page-editor-dev-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Page Editor Development Server",
   "main": "src/index.js",
   "bin": {
     "page-editor-dev-server": "src/index.js"

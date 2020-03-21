@@ -1,4 +1,6 @@
-# Page Editor Dev Server
+[![NPM Publish Version][https://badge.fury.io/js/page-editor-dev-server.svg?style=flat]][https://www.npmjs.com/package/page-editor-dev-server]
+
+# Page Editor Development Server
 
 ## Portal config
 
@@ -7,22 +9,15 @@
 auth.token.check.enabled=false
 ```
 
-## Steps
+## Steps to run
 
+- Go to page editor directory
+- `npx page-editor-dev-server`
+
+or
+
+- Clone repository
 - `npm install`
 - `npm link`
 - Go to page editor directory
 - `page-editor-dev-server`
-
-## ToDo
-
-- [x] Mock Liferay.Util.selectEntity
-- [x] Mock Liferay.Util.sub
-- [x] Mock AlloyEditor
-- [ ] Reload browser when session ends
-- [ ] Use all portal styles (currently it's just Atlas)
-- [x] Fix toolbar padding (works fine in portal)
-- [x] Hot Reloading
-- [x] Show progress on build
-- [x] Add DLL building
-- [ ] Publish to NPM
