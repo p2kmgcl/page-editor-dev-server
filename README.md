@@ -21,7 +21,7 @@ auth.token.check.enabled=false
 - [x] Mock AlloyEditor
 - [ ] Reload browser when session ends
 - [ ] Use all portal styles (currently it's just Atlas)
-- [ ] Fix toolbar padding (works fine in portal)
+- [x] Fix toolbar padding (works fine in portal)
 - [x] Hot Reloading
 - [x] Show progress on build
 - [x] Add DLL building
