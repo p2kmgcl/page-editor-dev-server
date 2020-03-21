@@ -4,10 +4,12 @@ const fs = require('fs');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const WebpackBar = require('webpackbar');
 const path = require('path');
 const buildPage = require('./build-page');
 
 const main = async () => {
+  console.clear();
   const getDisplayContext = await buildPage();
 
   const compiler = webpack({
@@ -56,6 +58,8 @@ const main = async () => {
           'utf-8',
         ),
       }),
+
+      new WebpackBar(),
     ],
 
     resolve: {
@@ -103,16 +107,17 @@ const main = async () => {
     },
   });
 
+  console.log('Starting server at http://localhost:8090');
+
   const server = new WebpackDevServer(compiler, {
     open: false,
-    clientLogLevel: 'silent',
+    clientLogLevel: 'warning',
     overlay: true,
     noInfo: true,
     hot: true,
     stats: {
       all: false,
       colors: true,
-      timings: true,
       warnings: true,
       errors: true,
     },
@@ -125,6 +130,7 @@ const main = async () => {
       {
         context: ['/documents', '/group', '/web', '/o'],
         target: 'http://localhost:8080',
+        logLevel: 'silent',
         headers: {
           Authorization: `Basic ${Buffer.from('test@liferay.com:test').toString(
             'base64',
@@ -134,9 +140,7 @@ const main = async () => {
     ],
   });
 
-  server.listen(8090, 'localhost', () => {
-    console.log('Server started at http://localhost:8090');
-  });
+  server.listen(8090, 'localhost', () => {});
 };
 
 main();

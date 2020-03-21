@@ -23,5 +23,5 @@ auth.token.check.enabled=false
 - [ ] Use all portal styles (currently it's just Atlas)
 - [ ] Fix toolbar padding (works fine in portal)
 - [x] Hot Reloading
-- [ ] Show progress on build
+- [x] Show progress on build
 - [ ] Add DLL building
