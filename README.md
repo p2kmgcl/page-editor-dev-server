@@ -25,3 +25,4 @@ auth.token.check.enabled=false
 - [x] Hot Reloading
 - [x] Show progress on build
 - [ ] Add DLL building
+- [ ] Publish to NPM
