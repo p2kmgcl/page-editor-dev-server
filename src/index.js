@@ -136,7 +136,7 @@ const main = async () => {
 
   const server = new WebpackDevServer(compiler, {
     open: false,
-    clientLogLevel: 'warning',
+    clientLogLevel: 'info',
     overlay: true,
     noInfo: true,
     hot: true,
