@@ -8,6 +8,8 @@ const WebpackBar = require('webpackbar');
 const path = require('path');
 const buildPage = require('./build-page');
 
+const HOT_RELOAD = !process.argv.includes('--no-hot');
+
 const main = async () => {
   console.clear();
   const getDisplayContext = await buildPage();
@@ -22,7 +24,12 @@ const main = async () => {
       splitChunks: false,
     },
 
-    entry: path.resolve(__dirname, 'app.js'),
+    entry: HOT_RELOAD
+      ? [
+          path.resolve(__dirname, '../node_modules/react-hot-loader'),
+          path.resolve(__dirname, 'app.js'),
+        ]
+      : [path.resolve(__dirname, 'app.js')],
 
     output: {
       filename: '[name].js',
@@ -39,14 +46,19 @@ const main = async () => {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-react', '@babel/preset-env'],
-              plugins: [
-                '@babel/plugin-proposal-export-namespace-from',
-                '@babel/plugin-proposal-class-properties',
-                path.resolve(
-                  __dirname,
-                  '../node_modules/react-hot-loader/babel.js',
-                ),
-              ],
+              plugins: HOT_RELOAD
+                ? [
+                    '@babel/plugin-proposal-export-namespace-from',
+                    '@babel/plugin-proposal-class-properties',
+                    path.resolve(
+                      __dirname,
+                      '../node_modules/react-hot-loader/babel.js',
+                    ),
+                  ]
+                : [
+                    '@babel/plugin-proposal-export-namespace-from',
+                    '@babel/plugin-proposal-class-properties',
+                  ],
             },
           },
         },
@@ -84,6 +96,10 @@ const main = async () => {
         ),
       }),
 
+      new webpack.DefinePlugin({
+        'process.env.HOT_RELOAD': JSON.stringify(HOT_RELOAD),
+      }),
+
       new WebpackBar(),
     ],
 
@@ -110,10 +126,9 @@ const main = async () => {
           '../node_modules/react-hot-loader',
         ),
         react: path.resolve('../../../node_modules/react/index.js'),
-        'react-dom': path.resolve(
-          __dirname,
-          '../node_modules/@hot-loader/react-dom',
-        ),
+        'react-dom': HOT_RELOAD
+          ? path.resolve(__dirname, '../node_modules/@hot-loader/react-dom')
+          : path.resolve('../../../node_modules/react-dom/index.js'),
         '@clayui/icon': path.resolve(
           '../../../node_modules/@clayui/icon/lib/index.js',
         ),
@@ -139,7 +154,7 @@ const main = async () => {
     clientLogLevel: 'info',
     overlay: true,
     noInfo: true,
-    hot: true,
+    hot: HOT_RELOAD,
     stats: {
       all: false,
       colors: true,
