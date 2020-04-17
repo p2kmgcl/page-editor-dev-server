@@ -9,6 +9,7 @@ const path = require('path');
 const buildPage = require('./build-page');
 
 const HOT_RELOAD = !process.argv.includes('--no-hot');
+const RTL = !!process.argv.includes('--rtl');
 
 const main = async () => {
   console.clear();
@@ -98,6 +99,7 @@ const main = async () => {
 
       new webpack.DefinePlugin({
         'process.env.HOT_RELOAD': JSON.stringify(HOT_RELOAD),
+        'process.env.RTL': JSON.stringify(RTL),
       }),
 
       new WebpackBar(),
@@ -161,8 +163,8 @@ const main = async () => {
       warnings: true,
       errors: true,
     },
-    before: function(app) {
-      app.get('/get-page-editor-display-context', async function(req, res) {
+    before: function (app) {
+      app.get('/get-page-editor-display-context', async function (req, res) {
         res.json({ displayContext: await getDisplayContext() });
       });
     },
