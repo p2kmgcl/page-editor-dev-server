@@ -107,7 +107,9 @@ const main = async () => {
         'process.env.RTL': JSON.stringify(RTL),
       }),
 
-      new WebpackBar(),
+      new WebpackBar({
+        color: '#00c0d1',
+      }),
     ],
 
     resolve: {

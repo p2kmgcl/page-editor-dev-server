@@ -30,11 +30,50 @@
       .page-editor__sidebar__content {
         height: 100vh !important;
       }
+
+      @keyframes pageEditorDevServerLoadingMove {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      .page-editor-dev-server__loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 999998 !important;
+      }
+
+      .page-editor-dev-server__loading::after,
+      .page-editor-dev-server__loading::before {
+        content: '';
+        display: block;
+        top: 5px;
+        border-radius: 10px;
+        left: -100%;
+        width: calc(100vw - 10px);
+        height: 10px;
+        min-height: 1em;
+        background-color: #00c0d1;
+        position: fixed;
+        z-index: 999999 !important;
+        animation: pageEditorDevServerLoadingMove linear 2.5s infinite;
+      }
+
+      .page-editor-dev-server__loading::after {
+        animation-delay: 1.25s;
+      }
     </style>
   </head>
 
   <body class="has-edit-mode-menu">
-    <h1 class="text-muted" id="dp">Fetching DisplayContext...</h1>
+    <div class="page-editor-dev-server__loading" id="dp"></div>
 
     <div class="control-menu control-menu-container">
       <div class="lfr-control-menu-panel" id="ControlMenu"></div>
