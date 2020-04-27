@@ -11,9 +11,14 @@ const buildPage = require('./build-page');
 const HOT_RELOAD = !process.argv.includes('--no-hot');
 const RTL = !!process.argv.includes('--rtl');
 
+const MASTER_PAGE = (() => {
+  const arg = process.argv.find((arg) => arg.startsWith('--master-page='));
+  return arg ? arg.replace('--master-page=', '') : 'Blank';
+})();
+
 const main = async () => {
   console.clear();
-  const getDisplayContext = await buildPage();
+  const getDisplayContext = await buildPage(MASTER_PAGE);
 
   const compiler = webpack({
     mode: 'development',

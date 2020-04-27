@@ -13,5 +13,5 @@ auth.token.check.enabled=false
 
 ```
 npm i -g page-editor-dev-server
-page-editor-dev-server [--no-hot] [--rtl]
+page-editor-dev-server [--no-hot] [--rtl] [--master-page=Blank]
 ```
