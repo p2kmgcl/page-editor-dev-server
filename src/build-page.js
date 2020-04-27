@@ -1,11 +1,6 @@
 const puppeteer = require('puppeteer');
 
-module.exports = async (masterPage) => {
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
-
-  console.log('Logging in...');
-
+const login = async (page) => {
   await page.goto(
     'http://localhost:8080/web/guest/home?p_p_id=com_liferay_login_web_portlet_LoginPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&saveLastPath=false&_com_liferay_login_web_portlet_LoginPortlet_mvcRenderCommandName=%2Flogin%2Flogin',
   );
@@ -16,6 +11,29 @@ module.exports = async (masterPage) => {
   );
   await page.click('.btn.btn-primary');
   await page.waitForNavigation();
+};
+
+const getGetDisplayContext = (page, url) => async () => {
+  const response = await page.goto(url);
+  const result = /(\{"portletId".+\}), '[a-z]{4}'\);\n/g.exec(
+    await response.text(),
+  );
+
+  if (!result || !result[1]) {
+    console.log('Session has expired, retrying...');
+    await login(page);
+    return await getDisplayContext(page, url);
+  } else {
+    return result[1];
+  }
+};
+
+module.exports = async (masterPage) => {
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+
+  console.log('Logging in...');
+  await login(page);
 
   console.log(`Creating new content page with master page "${masterPage}"...`);
 
@@ -71,11 +89,5 @@ module.exports = async (masterPage) => {
   console.log('Getting DisplayContext url...');
   const url = await page.url();
 
-  return async () => {
-    const response = await page.goto(url);
-
-    return /(\{"portletId".+\}), '[a-z]{4}'\);\n/g.exec(
-      await response.text(),
-    )[1];
-  };
+  return getGetDisplayContext(page, url);
 };
