@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
+const stream = require('stream');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
@@ -171,6 +172,22 @@ const main = async () => {
       errors: true,
     },
     before: function (app) {
+      app.get('/favicon.ico', async function (req, res) {
+        const passThrough = new stream.PassThrough();
+        const readStream = fs.createReadStream(
+          path.resolve(path.join(__dirname, '/mock/favicon.ico')),
+        );
+
+        stream.pipeline(readStream, passThrough, (error) => {
+          if (error) {
+            console.log(error);
+            return res.sendStatus(400);
+          }
+        });
+
+        passThrough.pipe(res);
+      });
+
       app.get('/get-page-editor-display-context', async function (req, res) {
         res.json({ displayContext: await getDisplayContext() });
       });
