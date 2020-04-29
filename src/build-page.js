@@ -13,20 +13,21 @@ const login = async (page) => {
   await page.waitForNavigation();
 };
 
-const getGetDisplayContext = (page, url) => async () => {
-  const response = await page.goto(url);
-  const result = /(\{"portletId".+\}), '[a-z]{4}'\);\n/g.exec(
-    await response.text(),
-  );
+const getGetDisplayContext = (page, url) =>
+  async function getDisplayContext() {
+    const response = await page.goto(url);
+    const result = /(\{"portletId".+\}), '[a-z]{4}'\);\n/g.exec(
+      await response.text(),
+    );
 
-  if (!result || !result[1]) {
-    console.log('Session has expired, retrying...');
-    await login(page);
-    return await getDisplayContext(page, url);
-  } else {
-    return result[1];
-  }
-};
+    if (!result || !result[1]) {
+      console.log('Session has expired, retrying...');
+      await login(page);
+      return await getDisplayContext();
+    } else {
+      return result[1];
+    }
+  };
 
 module.exports = async (masterPage) => {
   const browser = await puppeteer.launch({ headless: true });
