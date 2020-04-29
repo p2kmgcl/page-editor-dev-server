@@ -1,5 +1,3 @@
-![NPM Publish Version](https://badge.fury.io/js/page-editor-dev-server.svg?style=flat]][https://www.npmjs.com/package/page-editor-dev-server)
-
 # Page Editor Development Server
 
 ## Portal config
@@ -9,9 +7,23 @@
 auth.token.check.enabled=false
 ```
 
-## Steps to run
+## Install
 
 ```
-npm i -g page-editor-dev-server
-page-editor-dev-server [--no-hot] [--rtl] [--master-page=Blank]
+git clone https://github.com/p2kmgcl/page-editor-dev-server
+cd page-editor-dev-server
+npm link
 ```
+
+## Run
+
+```
+cd ~/my/local/page-editor/project
+page-editor-dev-server
+```
+
+### CLI Options
+
+- `--no-hot`: Disables hot reloading
+- `--rtl`: Enables RTL language
+- `--master-page=<name>`: Uses given master page (defaults to `Blank`)

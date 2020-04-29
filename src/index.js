@@ -17,6 +17,18 @@ const MASTER_PAGE = (() => {
   return arg ? arg.replace('--master-page=', '') : 'Blank';
 })();
 
+/** @return {string} Path located in page-editor-dev-server */
+const getLocalFile = (file) => path.resolve(__dirname, file);
+/** @return {string} Dependency located in page-editor-dev-server */
+const getLocalDep = (dep) => getLocalFile(`../node_modules/${dep}`);
+/** @return {string} Path located in page-editor project */
+const getRemoteFile = (file) => path.resolve(file);
+
+const BABEL_PLUGINS = [
+  '@babel/plugin-proposal-export-namespace-from',
+  '@babel/plugin-proposal-class-properties',
+];
+
 const main = async () => {
   console.clear();
   const getDisplayContext = await buildPage(MASTER_PAGE);
@@ -32,11 +44,8 @@ const main = async () => {
     },
 
     entry: HOT_RELOAD
-      ? [
-          path.resolve(__dirname, '../node_modules/react-hot-loader'),
-          path.resolve(__dirname, 'app.js'),
-        ]
-      : [path.resolve(__dirname, 'app.js')],
+      ? [getLocalDep('react-hot-loader'), getLocalFile('app.js')]
+      : [getLocalFile('app.js')],
 
     output: {
       filename: '[name].js',
@@ -54,18 +63,8 @@ const main = async () => {
             options: {
               presets: ['@babel/preset-react', '@babel/preset-env'],
               plugins: HOT_RELOAD
-                ? [
-                    '@babel/plugin-proposal-export-namespace-from',
-                    '@babel/plugin-proposal-class-properties',
-                    path.resolve(
-                      __dirname,
-                      '../node_modules/react-hot-loader/babel.js',
-                    ),
-                  ]
-                : [
-                    '@babel/plugin-proposal-export-namespace-from',
-                    '@babel/plugin-proposal-class-properties',
-                  ],
+                ? [...BABEL_PLUGINS, getLocalDep('react-hot-loader/babel.js')]
+                : BABEL_PLUGINS,
             },
           },
         },
@@ -78,16 +77,8 @@ const main = async () => {
             {
               loader: 'sass-loader',
               options: {
-                implementation: require(path.resolve(
-                  __dirname,
-                  '../node_modules/sass',
-                )),
-                sassOptions: {
-                  fibers: require(path.resolve(
-                    __dirname,
-                    '../node_modules/fibers',
-                  )),
-                },
+                implementation: require(getLocalDep('sass')),
+                sassOptions: { fibers: require(getLocalDep('fibers')) },
               },
             },
           ],
@@ -98,7 +89,7 @@ const main = async () => {
     plugins: [
       new HTMLWebpackPlugin({
         templateContent: fs.readFileSync(
-          path.resolve(__dirname, './mock/index.html'),
+          getLocalFile('mock/index.html'),
           'utf-8',
         ),
       }),
@@ -115,44 +106,39 @@ const main = async () => {
 
     resolve: {
       alias: {
-        atlas: path.resolve(
-          __dirname,
-          '../node_modules/@clayui/css/src/scss/atlas.scss',
-        ),
-        'frontend-js-components-web': path.resolve(
+        'frontend-js-components-web': getRemoteFile(
           '../../frontend-js/frontend-js-components-web/src/main/resources/META-INF/resources/index.js',
         ),
-        'frontend-js-web$': path.resolve(
+        'frontend-js-web$': getRemoteFile(
           '../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js',
         ),
-        'frontend-js-react-web$': path.resolve(
+        'frontend-js-react-web$': getRemoteFile(
           '../../frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/index.es.js',
         ),
-        'page_editor/plugins': path.resolve(
-          './src/main/resources/META-INF/resources/page_editor/plugins',
-        ),
-        'react-hot-loader': path.resolve(
-          __dirname,
-          '../node_modules/react-hot-loader',
-        ),
-        react: path.resolve('../../../node_modules/react/index.js'),
-        'react-dom': HOT_RELOAD
-          ? path.resolve(__dirname, '../node_modules/@hot-loader/react-dom')
-          : path.resolve('../../../node_modules/react-dom/index.js'),
-        '@clayui/icon': path.resolve(
+        '@clayui/icon': getRemoteFile(
           '../../../node_modules/@clayui/icon/lib/index.js',
         ),
-        'atlas-variables': path.resolve(
-          __dirname,
-          '../node_modules/@clayui/css/src/scss/atlas-variables.scss',
+        react: getRemoteFile('../../../node_modules/react/index.js'),
+        'page_editor/plugins': getRemoteFile(
+          'src/main/resources/META-INF/resources/page_editor/plugins',
         ),
-        PageEditorApp$: path.resolve(
-          './src/main/resources/META-INF/resources/page_editor/app/index.js',
+        PageEditorApp$: getRemoteFile(
+          'src/main/resources/META-INF/resources/page_editor/app/index.js',
         ),
-        PageEditorStyles$: path.resolve(
-          './src/main/resources/META-INF/resources/page_editor/app/components/App.scss',
+        PageEditorStyles$: getRemoteFile(
+          'src/main/resources/META-INF/resources/page_editor/app/components/App.scss',
         ),
-        PageEditorMock$: path.resolve(path.join(__dirname, '/mock/index.js')),
+
+        'react-dom': HOT_RELOAD
+          ? getLocalDep('@hot-loader/react-dom')
+          : getRemoteFile('../../../node_modules/react-dom/index.js'),
+
+        atlas: getLocalDep('@clayui/css/src/scss/atlas.scss'),
+        'react-hot-loader': getLocalDep('react-hot-loader'),
+        'atlas-variables': getLocalDep(
+          '@clayui/css/src/scss/atlas-variables.scss',
+        ),
+        PageEditorMock$: getLocalFile('mock/index.js'),
       },
     },
   });
@@ -175,7 +161,7 @@ const main = async () => {
       app.get('/favicon.ico', async function (req, res) {
         const passThrough = new stream.PassThrough();
         const readStream = fs.createReadStream(
-          path.resolve(path.join(__dirname, '/mock/favicon.ico')),
+          getLocalFile('mock/favicon.ico'),
         );
 
         stream.pipeline(readStream, passThrough, (error) => {
