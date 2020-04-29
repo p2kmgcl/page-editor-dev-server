@@ -27,3 +27,7 @@ page-editor-dev-server
 - `--no-hot`: Disables hot reloading
 - `--rtl`: Enables RTL language
 - `--master-page=<name>`: Uses given master page (defaults to `Blank`)
+
+## Extra tools
+
+- `window.compareObjects`: diffs to objects on the browser console.
