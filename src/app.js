@@ -7,16 +7,7 @@ import ReactDOM from 'react-dom';
 import { ClayIconSpriteContext } from '@clayui/icon';
 import PageEditorApp from 'PageEditorApp';
 
-const icons = ['🕛', '🕒', '🕕', '🕘'];
-const title = document.querySelector('title');
-
 let cachedData;
-let iconIndex = -1;
-
-const intervalId = setInterval(() => {
-  iconIndex = (iconIndex + 1) % icons.length;
-  title.innerText = `${icons[iconIndex]} Page Editor`;
-}, 100);
 
 const getApp = () =>
   new Promise((resolve) => {
@@ -30,9 +21,6 @@ const getApp = () =>
     );
 
     resolve(App);
-
-    clearInterval(intervalId);
-    title.innerText = 'Page Editor';
   });
 
 const mount = (pageEditorData) => {
