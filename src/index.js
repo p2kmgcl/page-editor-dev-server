@@ -86,7 +86,7 @@ const main = async () => {
     plugins: [
       new HTMLWebpackPlugin({
         templateContent: fs.readFileSync(
-          getLocalFile('mock/index.html'),
+          getLocalFile('assets/index.html'),
           'utf-8',
         ),
       }),
@@ -133,7 +133,8 @@ const main = async () => {
         'atlas-variables': getLocalDep(
           '@clayui/css/src/scss/atlas-variables.scss',
         ),
-        PageEditorMock$: getLocalFile('mock/index.js'),
+        PageEditorMocks$: getLocalFile('mocks/index.js'),
+        PageEditorTools$: getLocalFile('tools/index.js'),
       },
     },
   });
@@ -156,7 +157,7 @@ const main = async () => {
       app.get('/favicon.ico', async function (req, res) {
         const passThrough = new stream.PassThrough();
         const readStream = fs.createReadStream(
-          getLocalFile('mock/favicon.ico'),
+          getLocalFile('assets/favicon.ico'),
         );
 
         stream.pipeline(readStream, passThrough, (error) => {

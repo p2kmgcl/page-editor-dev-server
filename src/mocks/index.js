@@ -1,6 +1,5 @@
-import './data';
-import './liferay';
 import './alloy-editor';
 import './enable-rtl';
+import './get-page-editor-data';
+import './liferay';
 import './toolbar-padding';
-import './compare-objects';
