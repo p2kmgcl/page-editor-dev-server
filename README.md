@@ -24,7 +24,6 @@ page-editor-dev-server
 
 ### CLI Options
 
-- `--no-hot`: Disables hot reloading
 - `--rtl`: Enables RTL language
 - `--master-page=<name>`: Uses given master page (defaults to `Blank`)
 

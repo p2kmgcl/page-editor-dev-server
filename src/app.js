@@ -29,13 +29,7 @@ const getApp = () =>
       </ClayIconSpriteContext.Provider>
     );
 
-    if (process.env.HOT_RELOAD) {
-      import('react-hot-loader/root').then(({ hot }) => {
-        resolve(hot(App));
-      });
-    } else {
-      resolve(App);
-    }
+    resolve(App);
 
     clearInterval(intervalId);
     title.innerText = 'Page Editor';

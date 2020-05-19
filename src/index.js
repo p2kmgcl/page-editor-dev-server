@@ -9,7 +9,6 @@ const WebpackBar = require('webpackbar');
 const path = require('path');
 const buildPage = require('./build-page');
 
-const HOT_RELOAD = !process.argv.includes('--no-hot');
 const RTL = !!process.argv.includes('--rtl');
 
 const MASTER_PAGE = (() => {
@@ -43,9 +42,7 @@ const main = async () => {
       splitChunks: false,
     },
 
-    entry: HOT_RELOAD
-      ? [getLocalDep('react-hot-loader'), getLocalFile('app.js')]
-      : [getLocalFile('app.js')],
+    entry: getLocalFile('app.js'),
 
     output: {
       filename: '[name].js',
@@ -62,9 +59,7 @@ const main = async () => {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-react', '@babel/preset-env'],
-              plugins: HOT_RELOAD
-                ? [...BABEL_PLUGINS, getLocalDep('react-hot-loader/babel.js')]
-                : BABEL_PLUGINS,
+              plugins: BABEL_PLUGINS,
             },
           },
         },
@@ -95,7 +90,6 @@ const main = async () => {
       }),
 
       new webpack.DefinePlugin({
-        'process.env.HOT_RELOAD': JSON.stringify(HOT_RELOAD),
         'process.env.RTL': JSON.stringify(RTL),
       }),
 
@@ -129,12 +123,9 @@ const main = async () => {
           'src/main/resources/META-INF/resources/page_editor/app/components/App.scss',
         ),
 
-        'react-dom': HOT_RELOAD
-          ? getLocalDep('@hot-loader/react-dom')
-          : getRemoteFile('../../../node_modules/react-dom/index.js'),
+        'react-dom': getRemoteFile('../../../node_modules/react-dom/index.js'),
 
         atlas: getLocalDep('@clayui/css/src/scss/atlas.scss'),
-        'react-hot-loader': getLocalDep('react-hot-loader'),
         'atlas-variables': getLocalDep(
           '@clayui/css/src/scss/atlas-variables.scss',
         ),
@@ -150,7 +141,6 @@ const main = async () => {
     clientLogLevel: 'info',
     overlay: true,
     noInfo: true,
-    hot: HOT_RELOAD,
     stats: {
       all: false,
       colors: true,
