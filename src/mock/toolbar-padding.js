@@ -8,3 +8,9 @@ const id = setInterval(() => {
       ? '320px'
       : '40px';
 }, 1000);
+
+if (module.hot) {
+  module.hot.dispose(() => {
+    clearInterval(id);
+  });
+}

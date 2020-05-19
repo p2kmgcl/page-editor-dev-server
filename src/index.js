@@ -5,6 +5,7 @@ const stream = require('stream');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const path = require('path');
 const buildPage = require('./build-page');
@@ -26,6 +27,7 @@ const getRemoteFile = (file) => path.resolve(file);
 const BABEL_PLUGINS = [
   '@babel/plugin-proposal-export-namespace-from',
   '@babel/plugin-proposal-class-properties',
+  getLocalDep('react-refresh/babel'),
 ];
 
 const main = async () => {
@@ -96,6 +98,8 @@ const main = async () => {
       new WebpackBar({
         color: '#00c0d1',
       }),
+
+      new ReactRefreshWebpackPlugin(),
     ],
 
     resolve: {
@@ -139,6 +143,7 @@ const main = async () => {
   const server = new WebpackDevServer(compiler, {
     open: false,
     clientLogLevel: 'info',
+    hot: true,
     overlay: true,
     noInfo: true,
     stats: {
