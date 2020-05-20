@@ -8,6 +8,9 @@ const DYNAMIC_MODULES = {
   '/page_editor/plugins/experience/index': import(
     'page_editor/plugins/experience'
   ),
+  '/page_editor/plugins/fragments-widgets/index': import(
+    'page_editor/plugins/fragments-widgets'
+  ),
   '/page_editor/plugins/fragments/index': import(
     'page_editor/plugins/fragments'
   ),
