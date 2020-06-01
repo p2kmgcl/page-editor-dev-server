@@ -1,5 +1,7 @@
 # Page Editor Development Server
 
+> Unofficial, dangeours, not recommended, horrendous[, fast], Page Editor development server.
+
 ## Portal config
 
 ```
@@ -26,7 +28,3 @@ page-editor-dev-server
 
 - `--rtl`: Enables RTL language
 - `--master-page=<name>`: Uses given master page (defaults to `Blank`)
-
-## Extra tools
-
-- `window.compareObjects`: diffs to objects on the browser console.
