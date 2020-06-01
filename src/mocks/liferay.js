@@ -4,15 +4,11 @@ const DYNAMIC_MODULES = {
     'page_editor/plugins/page-structure'
   ),
   '/page_editor/plugins/contents/index': import('page_editor/plugins/contents'),
-  '/page_editor/plugins/widgets/index': import('page_editor/plugins/widgets'),
   '/page_editor/plugins/experience/index': import(
     'page_editor/plugins/experience'
   ),
   '/page_editor/plugins/fragments-widgets/index': import(
     'page_editor/plugins/fragments-widgets'
-  ),
-  '/page_editor/plugins/fragments/index': import(
-    'page_editor/plugins/fragments'
   ),
 };
 
