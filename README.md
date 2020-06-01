@@ -1,6 +1,6 @@
 # Page Editor Development Server
 
-> Unofficial, dangeours, not recommended, horrendous[, fast], Page Editor development server.
+> Unofficial, dangerous, grumpy, horrendous, boring, cruel, dishonest, impulsive, rude, selfish, untrustworthy Page Editor development server 🦄
 
 ## Portal config
 
