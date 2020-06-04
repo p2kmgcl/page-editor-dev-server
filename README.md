@@ -28,3 +28,5 @@ page-editor-dev-server
 
 - `--rtl`: Enables RTL language
 - `--master-page=<name>`: Uses given master page (defaults to `Blank`)
+
+[shame]: https://github.com/p2kmgcl/page-editor-dev-server/pull/10#issuecomment-638770818
