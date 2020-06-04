@@ -24,6 +24,7 @@ const getLocalDep = (dep) => getLocalFile(`../node_modules/${dep}`);
 /** @return {string} Path located in page-editor project */
 const getRemoteFile = (file) => path.resolve(file);
 
+// https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-scripts/src/config/babel.json
 const BABEL_PLUGINS = [
   '@babel/plugin-proposal-export-namespace-from',
   '@babel/plugin-proposal-class-properties',
