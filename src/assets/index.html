@@ -20,6 +20,9 @@
 
       body {
         background: white !important;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
       }
 
       .page-editor__sidebar {
@@ -69,6 +72,11 @@
 
       .page-editor-dev-server__loading::after {
         animation-delay: 1.25s;
+      }
+
+      #wrapper {
+        position: relative;
+        flex-grow: 1;
       }
     </style>
   </head>
