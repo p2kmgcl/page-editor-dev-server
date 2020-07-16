@@ -137,6 +137,7 @@ const main = async () => {
         'atlas-variables': getLocalDep(
           '@clayui/css/src/scss/atlas-variables.scss',
         ),
+        '@welldone-software/why-did-you-render': getLocalDep('@welldone-software/why-did-you-render'),
         PageEditorMocks$: getLocalFile('mocks/index.js'),
         PageEditorTools$: getLocalFile('tools/index.js'),
       },

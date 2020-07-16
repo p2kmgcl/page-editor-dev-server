@@ -34,6 +34,7 @@
     "@babel/preset-react": "^7.7.4",
     "@clayui/css": "^3.3.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.3.1",
+    "@welldone-software/why-did-you-render": "^4.2.5",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.2",
     "fibers": "^5.0.0",
