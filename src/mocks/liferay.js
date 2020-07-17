@@ -119,6 +119,7 @@ window.Liferay = {
   },
 
   ThemeDisplay: {
+    getLanguageId: () => 'en-US',
     getBCP47LanguageId: () => 'en-US',
     getPathThemeImages: () => '',
     getUserId: () => '20127',
@@ -129,3 +130,5 @@ window.Liferay = {
     sub: liferaySub,
   },
 };
+
+window.themeDisplay = Liferay.ThemeDisplay;
