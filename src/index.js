@@ -12,6 +12,11 @@ const buildPage = require('./build-page');
 
 const RTL = !!process.argv.includes('--rtl');
 
+const LIFERAY_HOST = (() => {
+  const arg = process.argv.find((arg) => arg.startsWith('--liferay-host='));
+  return arg ? arg.replace('--liferay-host=', '') : 'localhost:8080';
+})();
+
 const MASTER_PAGE = (() => {
   const arg = process.argv.find((arg) => arg.startsWith('--master-page='));
   return arg ? arg.replace('--master-page=', '') : 'Blank';
@@ -36,7 +41,7 @@ const BABEL_PLUGINS = [
 
 const main = async () => {
   console.clear();
-  const getDisplayContext = await buildPage(MASTER_PAGE);
+  const getDisplayContext = await buildPage(LIFERAY_HOST, MASTER_PAGE);
 
   const compiler = webpack({
     mode: 'development',
@@ -97,6 +102,7 @@ const main = async () => {
 
       new webpack.DefinePlugin({
         'process.env.RTL': JSON.stringify(RTL),
+        'process.env.LIFERAY_HOST': JSON.stringify(LIFERAY_HOST)
       }),
 
       new WebpackBar({
@@ -182,7 +188,7 @@ const main = async () => {
     proxy: [
       {
         context: ['/documents', '/group', '/web', '/o'],
-        target: 'http://localhost:8080',
+        target: `http://${LIFERAY_HOST}`,
         logLevel: 'silent',
         headers: {
           Authorization: `Basic ${Buffer.from('test@liferay.com:test').toString(
