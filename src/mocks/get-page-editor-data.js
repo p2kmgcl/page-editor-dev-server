@@ -7,10 +7,10 @@ window.GET_PAGE_EDITOR_DATA = () =>
       Object.entries(content.config).forEach(([key, value]) => {
         if (
           typeof value === 'string' &&
-          value.indexOf('localhost:8080') !== -1
+          value.indexOf(process.env.LIFERAY_HOST) !== -1
         ) {
           content.config[key] = value.replace(
-            'localhost:8080',
+            process.env.LIFERAY_HOST,
             'localhost:8090',
           );
         }
