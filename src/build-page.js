@@ -13,7 +13,7 @@ const login = async (host, page) => {
   await page.waitForNavigation();
 };
 
-const getGetDisplayContext = (page, url) =>
+const getGetDisplayContext = (host, page, url) =>
   async function getDisplayContext() {
     const response = await page.goto(url);
     const result = /(\{"portletId".+\}), '[a-z]{4}'\);\n/g.exec(
@@ -90,5 +90,5 @@ module.exports = async (host, masterPage) => {
   console.log('Getting DisplayContext url...');
   const url = await page.url();
 
-  return getGetDisplayContext(page, url);
+  return getGetDisplayContext(host, page, url);
 };
