@@ -9,7 +9,10 @@ const DYNAMIC_MODULES = {
   ),
   '/page_editor/plugins/fragments-widgets/index': import(
     'page_editor/plugins/fragments-widgets'
-  ),
+    ),
+  '/page_editor/plugins/page-design-options/index': import(
+    'page_editor/plugins/page-design-options'
+    ),
 };
 
 function liferayLanguageGet(str) {
