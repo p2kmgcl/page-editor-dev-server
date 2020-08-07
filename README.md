@@ -14,6 +14,7 @@ auth.token.check.enabled=false
 ```
 git clone https://github.com/p2kmgcl/page-editor-dev-server
 cd page-editor-dev-server
+npm install
 npm link
 ```
 
