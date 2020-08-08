@@ -11,6 +11,8 @@ auth.token.check.enabled=false
 
 ## Install
 
+__Requires NodeJS 10+__
+
 ```
 git clone https://github.com/p2kmgcl/page-editor-dev-server
 cd page-editor-dev-server
