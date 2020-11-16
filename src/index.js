@@ -102,7 +102,7 @@ const main = async () => {
 
       new webpack.DefinePlugin({
         'process.env.RTL': JSON.stringify(RTL),
-        'process.env.LIFERAY_HOST': JSON.stringify(LIFERAY_HOST)
+        'process.env.LIFERAY_HOST': JSON.stringify(LIFERAY_HOST),
       }),
 
       new WebpackBar({
@@ -114,38 +114,44 @@ const main = async () => {
 
     resolve: {
       alias: {
+        '@clayui/icon': getRemoteFile(
+          '../../../node_modules/@clayui/icon/lib/index.js',
+        ),
+        '@welldone-software/why-did-you-render': getLocalDep(
+          '@welldone-software/why-did-you-render',
+        ),
+        'atlas-variables': getLocalDep(
+          '@clayui/css/src/scss/atlas-variables.scss',
+        ),
+        'components/buttons$': getRemoteFile(
+          '../../../node_modules/@clayui/css/src/scss/components/_buttons.scss',
+        ),
+        'components/forms$': getRemoteFile(
+          '../../../node_modules/@clayui/css/src/scss/components/_forms.scss',
+        ),
         'frontend-js-components-web': getRemoteFile(
           '../../frontend-js/frontend-js-components-web/src/main/resources/META-INF/resources/index.js',
-        ),
-        'frontend-js-web$': getRemoteFile(
-          '../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js',
         ),
         'frontend-js-react-web$': getRemoteFile(
           '../../frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/index.es.js',
         ),
-        '@clayui/icon': getRemoteFile(
-          '../../../node_modules/@clayui/icon/lib/index.js',
+        'frontend-js-web$': getRemoteFile(
+          '../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js',
         ),
-        react: getRemoteFile('../../../node_modules/react/index.js'),
         'page_editor/plugins': getRemoteFile(
           'src/main/resources/META-INF/resources/page_editor/plugins',
         ),
+        'react-dom': getRemoteFile('../../../node_modules/react-dom/index.js'),
         PageEditorApp$: getRemoteFile(
           'src/main/resources/META-INF/resources/page_editor/app/index.js',
         ),
+        PageEditorMocks$: getLocalFile('mocks/index.js'),
         PageEditorStyles$: getRemoteFile(
           'src/main/resources/META-INF/resources/page_editor/app/components/App.scss',
         ),
-
-        'react-dom': getRemoteFile('../../../node_modules/react-dom/index.js'),
-
-        atlas: getLocalDep('@clayui/css/src/scss/atlas.scss'),
-        'atlas-variables': getLocalDep(
-          '@clayui/css/src/scss/atlas-variables.scss',
-        ),
-        '@welldone-software/why-did-you-render': getLocalDep('@welldone-software/why-did-you-render'),
-        PageEditorMocks$: getLocalFile('mocks/index.js'),
         PageEditorTools$: getLocalFile('tools/index.js'),
+        atlas: getLocalDep('@clayui/css/src/scss/atlas.scss'),
+        react: getRemoteFile('../../../node_modules/react/index.js'),
       },
     },
   });
