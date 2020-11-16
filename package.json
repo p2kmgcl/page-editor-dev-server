@@ -17,7 +17,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/html-webpack-plugin": "^3.2.3",
-    "@types/puppeteer": "^2.1.0",
+    "@types/puppeteer": "^5.4.0",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@types/webpack": "^4.41.13",
@@ -33,19 +33,20 @@
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "@clayui/css": "^3.3.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.3.1",
-    "@welldone-software/why-did-you-render": "^4.2.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.0",
+    "@welldone-software/why-did-you-render": "^5.0.0",
     "babel-loader": "^8.0.6",
-    "css-loader": "^3.4.2",
+    "css-loader": "^5.0.0",
     "fibers": "^5.0.0",
     "html-webpack-plugin": "^4.3.0",
-    "puppeteer": "^3.1.0",
-    "react-refresh": "^0.8.2",
+    "puppeteer": "^5.0.0",
+    "react": "^16.0.0",
+    "react-refresh": "^0.9.0",
     "sass": "^1.26.3",
-    "sass-loader": "^8.0.1",
-    "style-loader": "^1.1.2",
-    "webpack": "^4.41.5",
+    "sass-loader": "^10.0.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^4.0.0",
     "webpack-dev-server": "^3.10.1",
-    "webpackbar": "^4.0.0"
+    "webpackbar": "^5.0.0-3"
   }
 }
