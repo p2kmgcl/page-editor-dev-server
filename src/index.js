@@ -114,14 +114,15 @@ const main = async () => {
 
     resolve: {
       alias: {
+        atlas: getRemoteFile(
+          '../../../node_modules/@clayui/css/src/scss/atlas.scss',
+        ),
+        'atlas-variables': getRemoteFile(
+          '../../../node_modules/@clayui/css/src/scss/atlas-variables.scss',
+        ),
+
         '@clayui/icon': getRemoteFile(
           '../../../node_modules/@clayui/icon/lib/index.js',
-        ),
-        '@welldone-software/why-did-you-render': getLocalDep(
-          '@welldone-software/why-did-you-render',
-        ),
-        'atlas-variables': getLocalDep(
-          '@clayui/css/src/scss/atlas-variables.scss',
         ),
         'components/buttons$': getRemoteFile(
           '../../../node_modules/@clayui/css/src/scss/components/_buttons.scss',
@@ -129,6 +130,7 @@ const main = async () => {
         'components/forms$': getRemoteFile(
           '../../../node_modules/@clayui/css/src/scss/components/_forms.scss',
         ),
+
         'frontend-js-components-web': getRemoteFile(
           '../../frontend-js/frontend-js-components-web/src/main/resources/META-INF/resources/index.js',
         ),
@@ -138,10 +140,10 @@ const main = async () => {
         'frontend-js-web$': getRemoteFile(
           '../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js',
         ),
-        'page_editor/plugins': getRemoteFile(
-          'src/main/resources/META-INF/resources/page_editor/plugins',
-        ),
+
+        react: getRemoteFile('../../../node_modules/react/index.js'),
         'react-dom': getRemoteFile('../../../node_modules/react-dom/index.js'),
+
         PageEditorApp$: getRemoteFile(
           'src/main/resources/META-INF/resources/page_editor/app/index.js',
         ),
@@ -149,9 +151,9 @@ const main = async () => {
         PageEditorStyles$: getRemoteFile(
           'src/main/resources/META-INF/resources/page_editor/app/components/App.scss',
         ),
-        PageEditorTools$: getLocalFile('tools/index.js'),
-        atlas: getLocalDep('@clayui/css/src/scss/atlas.scss'),
-        react: getRemoteFile('../../../node_modules/react/index.js'),
+        'page_editor/plugins': getRemoteFile(
+          'src/main/resources/META-INF/resources/page_editor/plugins',
+        ),
       },
     },
   });

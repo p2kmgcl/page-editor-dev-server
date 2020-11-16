@@ -1,7 +1,6 @@
 import 'atlas';
 import 'PageEditorStyles';
 import 'PageEditorMocks';
-import 'PageEditorTools';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
