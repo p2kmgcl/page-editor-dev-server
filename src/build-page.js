@@ -61,7 +61,7 @@ module.exports = async (host, masterPage) => {
     }
   });
 
-  await page.waitFor(1000);
+  await page.waitForTimeout(1000);
   await page.waitForSelector('iframe');
 
   await page.$eval('iframe', async f => {
