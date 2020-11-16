@@ -109,7 +109,8 @@ const main = async () => {
         color: '#00c0d1',
       }),
 
-      new ReactRefreshWebpackPlugin(),
+      new webpack.HotModuleReplacementPlugin(),
+      new ReactRefreshWebpackPlugin({ overlay: false }),
     ],
 
     resolve: {
@@ -164,7 +165,7 @@ const main = async () => {
     open: false,
     clientLogLevel: 'info',
     hot: true,
-    overlay: true,
+    overlay: false,
     noInfo: true,
     stats: {
       all: false,
