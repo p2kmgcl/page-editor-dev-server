@@ -22,22 +22,12 @@ const MASTER_PAGE = (() => {
   return arg ? arg.replace('--master-page=', '') : 'Blank';
 })();
 
-/** @return {string} Path located in page-editor-dev-server */
-const getLocalFile = (file) => path.resolve(__dirname, file);
-/** @return {string} Dependency located in page-editor-dev-server */
-const getLocalDep = (dep) => getLocalFile(`../node_modules/${dep}`);
-/** @return {string} Path located in page-editor project */
-const getRemoteFile = (file) => path.resolve(file);
-
-// https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-scripts/src/config/babel.json
-const BABEL_PLUGINS = [
-  '@babel/plugin-proposal-export-namespace-from',
-  '@babel/plugin-proposal-class-properties',
-  '@babel/plugin-proposal-nullish-coalescing-operator',
-  '@babel/plugin-proposal-object-rest-spread',
-  '@babel/plugin-proposal-optional-chaining',
-  getLocalDep('react-refresh/babel'),
-];
+const getDevelopmentServerFile = (file) => path.resolve(__dirname, file);
+const getDevelopmentServerDependency = (dependency) =>
+  getDevelopmentServerFile(`../node_modules/${dependency}`);
+const getPageEditorFile = (file) => path.resolve(file);
+const getPageEditorDependency = (dependency) =>
+  getPageEditorFile(`../../../node_modules/${dependency}`);
 
 const main = async () => {
   console.clear();
@@ -53,7 +43,7 @@ const main = async () => {
       splitChunks: false,
     },
 
-    entry: getLocalFile('app.js'),
+    entry: getDevelopmentServerFile('app.js'),
 
     output: {
       filename: '[name].js',
@@ -67,10 +57,27 @@ const main = async () => {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
-            loader: 'babel-loader',
+            loader: getDevelopmentServerDependency('babel-loader'),
             options: {
               presets: ['@babel/preset-react', '@babel/preset-env'],
-              plugins: BABEL_PLUGINS,
+              plugins: [
+                getDevelopmentServerDependency(
+                  '@babel/plugin-proposal-export-namespace-from',
+                ),
+                getDevelopmentServerDependency(
+                  '@babel/plugin-proposal-class-properties',
+                ),
+                getDevelopmentServerDependency(
+                  '@babel/plugin-proposal-nullish-coalescing-operator',
+                ),
+                getDevelopmentServerDependency(
+                  '@babel/plugin-proposal-object-rest-spread',
+                ),
+                getDevelopmentServerDependency(
+                  '@babel/plugin-proposal-optional-chaining',
+                ),
+                getDevelopmentServerDependency('react-refresh/babel'),
+              ],
             },
           },
         },
@@ -78,13 +85,15 @@ const main = async () => {
         {
           test: /\.scss$/,
           use: [
-            'style-loader',
-            'css-loader',
+            getDevelopmentServerDependency('style-loader'),
+            getDevelopmentServerDependency('css-loader'),
             {
-              loader: 'sass-loader',
+              loader: getDevelopmentServerDependency('sass-loader'),
               options: {
-                implementation: require(getLocalDep('sass')),
-                sassOptions: { fibers: require(getLocalDep('fibers')) },
+                implementation: require(getDevelopmentServerDependency('sass')),
+                sassOptions: {
+                  fibers: require(getDevelopmentServerDependency('fibers')),
+                },
               },
             },
           ],
@@ -95,7 +104,7 @@ const main = async () => {
     plugins: [
       new HTMLWebpackPlugin({
         templateContent: fs.readFileSync(
-          getLocalFile('assets/index.html'),
+          getDevelopmentServerFile('assets/index.html'),
           'utf-8',
         ),
       }),
@@ -115,44 +124,40 @@ const main = async () => {
 
     resolve: {
       alias: {
-        atlas: getRemoteFile(
-          '../../../node_modules/@clayui/css/src/scss/atlas.scss',
-        ),
-        'atlas-variables': getRemoteFile(
-          '../../../node_modules/@clayui/css/src/scss/atlas-variables.scss',
+        atlas: getPageEditorDependency('@clayui/css/src/scss/atlas.scss'),
+        'atlas-variables': getPageEditorDependency(
+          '@clayui/css/src/scss/atlas-variables.scss',
         ),
 
-        '@clayui/icon': getRemoteFile(
-          '../../../node_modules/@clayui/icon/lib/index.js',
+        '@clayui/icon': getPageEditorDependency('@clayui/icon/lib/index.js'),
+        'components/buttons$': getPageEditorDependency(
+          '@clayui/css/src/scss/components/_buttons.scss',
         ),
-        'components/buttons$': getRemoteFile(
-          '../../../node_modules/@clayui/css/src/scss/components/_buttons.scss',
-        ),
-        'components/forms$': getRemoteFile(
-          '../../../node_modules/@clayui/css/src/scss/components/_forms.scss',
+        'components/forms$': getPageEditorDependency(
+          '@clayui/css/src/scss/components/_forms.scss',
         ),
 
-        'frontend-js-components-web': getRemoteFile(
+        'frontend-js-components-web': getPageEditorFile(
           '../../frontend-js/frontend-js-components-web/src/main/resources/META-INF/resources/index.js',
         ),
-        'frontend-js-react-web$': getRemoteFile(
+        'frontend-js-react-web$': getPageEditorFile(
           '../../frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/index.es.js',
         ),
-        'frontend-js-web$': getRemoteFile(
+        'frontend-js-web$': getPageEditorFile(
           '../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js',
         ),
 
-        react: getRemoteFile('../../../node_modules/react/index.js'),
-        'react-dom': getRemoteFile('../../../node_modules/react-dom/index.js'),
+        react: getPageEditorDependency('react/index.js'),
+        'react-dom': getPageEditorDependency('react-dom/index.js'),
 
-        PageEditorApp$: getRemoteFile(
+        PageEditorMocks$: getDevelopmentServerFile('mocks/index.js'),
+        PageEditorApp$: getPageEditorFile(
           'src/main/resources/META-INF/resources/page_editor/app/index.js',
         ),
-        PageEditorMocks$: getLocalFile('mocks/index.js'),
-        PageEditorStyles$: getRemoteFile(
+        PageEditorStyles$: getPageEditorFile(
           'src/main/resources/META-INF/resources/page_editor/app/components/App.scss',
         ),
-        'page_editor/plugins': getRemoteFile(
+        'page_editor/plugins': getPageEditorFile(
           'src/main/resources/META-INF/resources/page_editor/plugins',
         ),
       },
@@ -177,7 +182,7 @@ const main = async () => {
       app.get('/favicon.ico', async function (req, res) {
         const passThrough = new stream.PassThrough();
         const readStream = fs.createReadStream(
-          getLocalFile('assets/favicon.ico'),
+          getDevelopmentServerFile('assets/favicon.ico'),
         );
 
         stream.pipeline(readStream, passThrough, (error) => {
