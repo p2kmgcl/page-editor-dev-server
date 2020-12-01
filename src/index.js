@@ -37,18 +37,12 @@ const main = async () => {
     mode: 'development',
     devtool: 'eval-source-map',
 
-    optimization: {
-      removeAvailableModules: false,
-      removeEmptyChunks: false,
-      splitChunks: false,
+    entry: {
+      index: getDevelopmentServerFile('app.js'),
     },
 
-    entry: getDevelopmentServerFile('app.js'),
-
     output: {
-      filename: '[name].js',
-      chunkFilename: '[name].js',
-      pathinfo: false,
+      filename: '[name].bundle.js',
     },
 
     module: {

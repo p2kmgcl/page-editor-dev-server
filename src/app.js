@@ -5,13 +5,10 @@ import 'PageEditorMocks';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ClayIconSpriteContext } from '@clayui/icon';
-import PageEditorApp from 'PageEditorApp';
 
-let cachedData;
-
-const getApp = () =>
-  new Promise((resolve) => {
-    const App = ({ pageEditorData }) => (
+const getApp = () => {
+  return import('PageEditorApp').then(({ default: PageEditorApp }) => {
+    return ({ pageEditorData }) => (
       <ClayIconSpriteContext.Provider value="/o/classic-theme/images/lexicon/icons.svg">
         <PageEditorApp
           config={pageEditorData.config}
@@ -19,20 +16,24 @@ const getApp = () =>
         />
       </ClayIconSpriteContext.Provider>
     );
-
-    resolve(App);
   });
+};
+
+let cachedData;
 
 const mount = (pageEditorData) => {
-  const dp = document.getElementById('dp');
-  dp && dp.parentElement.removeChild(dp);
+  window
+    .PREPARE_LIFERAY()
+    .then(() => getApp())
+    .then((App) => {
+      const dp = document.getElementById('dp');
+      dp && dp.parentElement.removeChild(dp);
 
-  getApp().then((App) => {
-    ReactDOM.render(
-      <App pageEditorData={pageEditorData} />,
-      document.getElementById('layoutContent'),
-    );
-  });
+      ReactDOM.render(
+        <App pageEditorData={pageEditorData} />,
+        document.getElementById('layoutContent'),
+      );
+    });
 };
 
 if (cachedData) {
