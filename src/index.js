@@ -201,7 +201,7 @@ const main = async () => {
     },
     proxy: [
       {
-        context: ['/documents', '/group', '/web', '/o'],
+        context: ['/documents', '/group', '/image', '/web', '/o'],
         target: `http://${LIFERAY_HOST}`,
         logLevel: 'silent',
         headers: {
