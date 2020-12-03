@@ -77,7 +77,7 @@ const main = async () => {
         },
 
         {
-          test: /\.scss$/,
+          test: /\.(scss|css)$/,
           use: [
             getDevelopmentServerDependency('style-loader'),
             getDevelopmentServerDependency('css-loader'),
