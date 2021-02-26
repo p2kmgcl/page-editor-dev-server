@@ -134,7 +134,7 @@ const main = async () => {
         'frontend-js-components-web': getPageEditorFile(
           '../../frontend-js/frontend-js-components-web/src/main/resources/META-INF/resources/index.js',
         ),
-        'frontend-js-react-web$': getPageEditorFile(
+        '@liferay/frontend-js-react-web$': getPageEditorFile(
           '../../frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/index.es.js',
         ),
         'frontend-js-web$': getPageEditorFile(
