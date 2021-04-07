@@ -48,12 +48,16 @@ const main = async () => {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.(js|ts|tsx)$/,
           exclude: /node_modules/,
           use: {
             loader: getDevelopmentServerDependency('babel-loader'),
             options: {
-              presets: ['@babel/preset-react', '@babel/preset-env'],
+              presets: [
+                '@babel/preset-react',
+                '@babel/preset-typescript',
+                '@babel/preset-env',
+              ],
               plugins: [
                 getDevelopmentServerDependency(
                   '@babel/plugin-proposal-export-namespace-from',
@@ -117,6 +121,8 @@ const main = async () => {
     ],
 
     resolve: {
+      extensions: ['.js', '.ts', '.tsx'],
+
       alias: {
         atlas: getPageEditorDependency('@clayui/css/src/scss/atlas.scss'),
         'atlas-variables': getPageEditorDependency(
@@ -135,7 +141,10 @@ const main = async () => {
           '../../frontend-js/frontend-js-components-web/src/main/resources/META-INF/resources/index.js',
         ),
         '@liferay/frontend-js-react-web$': getPageEditorFile(
-          '../../frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/index.es.js',
+          '../../frontend-js/frontend-js-react-web/src/main/resources/META-INF/resources/js/index.ts',
+        ),
+        '@liferay/frontend-js-state-web$': getPageEditorFile(
+          '../../frontend-js/frontend-js-state-web/src/main/resources/META-INF/resources/index.ts',
         ),
         'frontend-js-web$': getPageEditorFile(
           '../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js',
