@@ -1,4 +1,6 @@
 const DYNAMIC_MODULES = {
+  '/page_editor/plugins/browser/index': () =>
+    import('page_editor/plugins/browser'),
   '/page_editor/plugins/comments/index': () =>
     import('page_editor/plugins/comments'),
   '/page_editor/plugins/page-structure/index': () =>
@@ -68,7 +70,15 @@ window.PREPARE_LIFERAY = () =>
                       '',
                     ),
                   )
-                  .map((dep) => DYNAMIC_MODULES[dep]()),
+                  .map((dep) => {
+                    if (typeof DYNAMIC_MODULES[dep] !== 'function') {
+                      throw new Error(
+                        `"${dep}" is not defined in mocks/liferay.js/DYNAMIC_MODULES`,
+                      );
+                    }
+
+                    return DYNAMIC_MODULES[dep]();
+                  }),
               )
                 .then((modules) => {
                   if (modules.some((module) => !module)) {
