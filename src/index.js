@@ -128,6 +128,10 @@ const main = async () => {
         'atlas-variables': getPageEditorDependency(
           '@clayui/css/src/scss/atlas-variables.scss',
         ),
+        cadmin: getPageEditorDependency('@clayui/css/src/scss/cadmin.scss'),
+        'cadmin-variables': getPageEditorDependency(
+          '@clayui/css/src/scss/_cadmin-variables.scss',
+        ),
 
         '@clayui/icon': getPageEditorDependency('@clayui/icon/lib/index.js'),
         'components/buttons$': getPageEditorDependency(
@@ -148,6 +152,9 @@ const main = async () => {
         ),
         'frontend-js-web$': getPageEditorFile(
           '../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js',
+        ),
+        'item-selector-taglib$': getPageEditorFile(
+          '../../item-selector/item-selector-taglib/src/main/resources/META-INF/resources/index.es.js',
         ),
 
         react: getPageEditorDependency('react/index.js'),
