@@ -59,6 +59,7 @@ window.PREPARE_LIFERAY = () =>
 
           window.Liferay.Loader.require = (deps, cb, errorCb) => {
             if (
+              Array.isArray(deps) &&
               deps.some((dep) =>
                 dep.startsWith('layout-content-page-editor-web'),
               )
