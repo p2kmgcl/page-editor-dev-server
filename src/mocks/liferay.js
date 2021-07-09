@@ -30,27 +30,28 @@ window.PREPARE_LIFERAY = () =>
             ? fetch(script.src).then((response) => response.text())
             : Promise.resolve(script.innerHTML),
         )
-        .map((scriptContentPromise) => () =>
-          scriptContentPromise.then(
-            (scriptContent) =>
-              new Promise((resolve) => {
-                const scriptClone = document.createElement('script');
+        .map(
+          (scriptContentPromise) => () =>
+            scriptContentPromise.then(
+              (scriptContent) =>
+                new Promise((resolve) => {
+                  const scriptClone = document.createElement('script');
 
-                scriptClone.appendChild(
-                  document.createTextNode(`
+                  scriptClone.appendChild(
+                    document.createTextNode(`
                   try {
                     ;;${scriptContent};;
                   } catch (error) {}
                 `),
-                );
+                  );
 
-                window.bestFunctionEventer(() => {
-                  resolve();
-                });
+                  window.bestFunctionEventer(() => {
+                    resolve();
+                  });
 
-                document.body.appendChild(scriptClone);
-              }),
-          ),
+                  document.body.appendChild(scriptClone);
+                }),
+            ),
         )
         .reduce((p, fn) => p.then(() => fn()), Promise.resolve())
         .then(() => {
@@ -89,7 +90,7 @@ window.PREPARE_LIFERAY = () =>
                 })
                 .catch(errorCb);
             } else {
-              loaderRequire(deps, cb, errorCb);
+              loaderRequire.call(window.Liferay.Loader, deps, cb, errorCb);
             }
           };
 
