@@ -3,10 +3,6 @@ const DYNAMIC_MODULES = {
     import('page_editor/plugins/browser'),
   '/page_editor/plugins/comments/index': () =>
     import('page_editor/plugins/comments'),
-  '/page_editor/plugins/page-structure/index': () =>
-    import('page_editor/plugins/page-structure'),
-  '/page_editor/plugins/contents/index': () =>
-    import('page_editor/plugins/contents'),
   '/page_editor/plugins/experience/index': () =>
     import('page_editor/plugins/experience'),
   '/page_editor/plugins/fragments-widgets/index': () =>
