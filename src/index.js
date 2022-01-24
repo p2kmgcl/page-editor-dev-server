@@ -45,6 +45,13 @@ const main = async () => {
       filename: '[name].bundle.js',
     },
 
+    stats: {
+      all: false,
+      colors: true,
+      warnings: true,
+      errors: true,
+    },
+
     module: {
       rules: [
         {
@@ -88,10 +95,9 @@ const main = async () => {
             {
               loader: getDevelopmentServerDependency('sass-loader'),
               options: {
-                implementation: require(getDevelopmentServerDependency('sass')),
-                sassOptions: {
-                  fibers: require(getDevelopmentServerDependency('fibers')),
-                },
+                implementation: require(getDevelopmentServerDependency(
+                  'node-sass',
+                )),
               },
             },
           ],
@@ -116,7 +122,7 @@ const main = async () => {
         color: '#00c0d1',
       }),
 
-      new webpack.HotModuleReplacementPlugin(),
+      // new webpack.HotModuleReplacementPlugin(),
       new ReactRefreshWebpackPlugin({ overlay: false }),
     ],
 
@@ -176,54 +182,59 @@ const main = async () => {
 
   console.log('Starting server at http://localhost:8090');
 
-  const server = new WebpackDevServer(compiler, {
-    open: false,
-    clientLogLevel: 'info',
-    hot: true,
-    overlay: false,
-    noInfo: true,
-    stats: {
-      all: false,
-      colors: true,
-      warnings: true,
-      errors: true,
-    },
-    before: function (app) {
-      app.get('/favicon.ico', async function (req, res) {
-        const passThrough = new stream.PassThrough();
-        const readStream = fs.createReadStream(
-          getDevelopmentServerFile('assets/favicon.ico'),
-        );
+  const server = new WebpackDevServer(
+    {
+      open: false,
+      hot: true,
+      port: 8090,
+      setupMiddlewares: function (middlewares, devServer) {
+        middlewares.unshift({
+          name: 'favicon',
+          path: '/favicon.ico',
+          middleware: async (req, res) => {
+            const passThrough = new stream.PassThrough();
+            const readStream = fs.createReadStream(
+              getDevelopmentServerFile('assets/favicon.ico'),
+            );
 
-        stream.pipeline(readStream, passThrough, (error) => {
-          if (error) {
-            console.log(error);
-            return res.sendStatus(400);
-          }
+            stream.pipeline(readStream, passThrough, (error) => {
+              if (error) {
+                console.log(error);
+                return res.sendStatus(400);
+              }
+            });
+
+            passThrough.pipe(res);
+          },
         });
 
-        passThrough.pipe(res);
-      });
+        middlewares.unshift({
+          name: 'display-context',
+          path: '/get-page-editor-display-context',
+          middleware: async (req, res) => {
+            res.json({ displayContext: await getDisplayContext() });
+          },
+        });
 
-      app.get('/get-page-editor-display-context', async function (req, res) {
-        res.json({ displayContext: await getDisplayContext() });
-      });
-    },
-    proxy: [
-      {
-        context: ['/documents', '/group', '/image', '/web', '/o'],
-        target: `http://${LIFERAY_HOST}`,
-        logLevel: 'silent',
-        headers: {
-          Authorization: `Basic ${Buffer.from('test@liferay.com:test').toString(
-            'base64',
-          )}`,
-        },
+        return middlewares;
       },
-    ],
-  });
+      proxy: [
+        {
+          context: ['/documents', '/group', '/image', '/web', '/o'],
+          target: `http://${LIFERAY_HOST}`,
+          logLevel: 'silent',
+          headers: {
+            Authorization: `Basic ${Buffer.from(
+              'test@liferay.com:test',
+            ).toString('base64')}`,
+          },
+        },
+      ],
+    },
+    compiler,
+  );
 
-  server.listen(8090, 'localhost', () => {});
+  await server.start();
 };
 
 main();
